@@ -27,3 +27,6 @@
 > * 劉奕秀 0342059 : 遊戲設計、PPT製作（期中）
 > * 陳中毅 0231077 : PPT製作（期末）
 > * 賈振暉 0412016 : PPT製作（期末）
+
+## 遊戲操作示範影片
+[![FINAL REPORT DEMO](https://ppt.cc/ftuJCx)](https://youtu.be/7DvTiba9WmM "demo")
