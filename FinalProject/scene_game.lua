@@ -137,13 +137,13 @@ end
         graphics.newImageSheet("images/sonicSpriteSheet.png", 
                                            sheetInfo:getSheet())
   local sequenceDate = {{name = "running", start = 1, count = 6, time = 300}, 
-                       {name = "jumping", start = 7, count = 1, time = 100}}
+                       {name = "jumping", start = 7, count = 1, time = 30}}
 
   local monster = display.newSprite(myImageSheet, sequenceDate)
   monster:play()
   monster.x = 60
   monster.y = 220
-  monster.gravity = -6
+  monster.gravity = -9
   monster.accel = 0
   monster.isAlive = true
 
@@ -249,6 +249,10 @@ function checkCollisions()
       monster.isAlive = false
       --this simply pauses the current animation
       monster:pause()
+      -- audio
+      local deadSound = audio.loadSound( "audio/gameover.mp3" )
+      audio.play(deadSound,{ channel=1 ,loop=1})--播放音效檔
+      audio.setVolume( 1 , {channel=1})
       gameOver.x = display.contentWidth*.5
       gameOver.y = display.contentHeight/2
       yesButton.x = display.contentWidth*.5 - 80
@@ -269,6 +273,10 @@ function checkCollisions()
         monster.isAlive = false
         --this simply pauses the current animation
         monster:pause()
+        -- audio
+        local deadSound = audio.loadSound( "audio/gameover.mp3" )
+        audio.play(deadSound,{ channel=1 ,loop=1})--播放音效檔
+        audio.setVolume( 0.3 , {channel=1})     
         gameOver.x = display.contentWidth*.5
         gameOver.y = display.contentHeight/2
         yesButton.x = display.contentWidth*.5 - 80
@@ -291,6 +299,10 @@ function checkCollisions()
         monster.isAlive = false
         --this simply pauses the current animation
         monster:pause()
+        -- audio
+        local deadSound = audio.loadSound( "audio/gameover.mp3" )
+        audio.play(deadSound,{ channel=1 ,loop=1})--播放音效檔
+        audio.setVolume( 0.3 , {channel=1})
         gameOver.x = display.contentWidth*.5
         gameOver.y = display.contentHeight/2
         yesButton.x = display.contentWidth*.5 - 80
@@ -302,6 +314,7 @@ function checkCollisions()
   end
   
   --boss spit
+  
   for a = 1, bossSpits.numChildren, 1 do
     if(bossSpits[a].isAlive == true) then
      if((monster.y-bossSpits[a].y <45) and
@@ -312,6 +325,10 @@ function checkCollisions()
         monster.isAlive = false
         --this simply pauses the current animation
         monster:pause()
+        -- audio
+        local deadSound = audio.loadSound( "audio/gameover.mp3" )
+        audio.play(deadSound,{ channel=1 ,loop=1})--播放音效檔
+        audio.setVolume( 1 , {channel=1})
         gameOver.x = display.contentWidth*.5
         gameOver.y = display.contentHeight/2
         yesButton.x = display.contentWidth*.5 - 80
@@ -321,7 +338,6 @@ function checkCollisions()
       end
     end
   end
-
 -- onGround
   for a = 1, blocks.numChildren, 1 do
     if(monster.y >= blocks[a].y - 170 and
@@ -463,7 +479,7 @@ function updateMonster()
                monster:play()
           end
           if(monster.accel > 0) then
-               monster.accel = monster.accel - 1
+               monster.accel = monster.accel -1
           end
           monster.y = monster.y - monster.accel
           monster.y = monster.y - monster.gravity
@@ -500,6 +516,10 @@ function updateBlocks()
               if(boss.y > 100 and boss.y < 300 and boss.spitCycle%3 == 0) then
                 for a=1, bossSpits.numChildren, 1 do
                   if(bossSpits[a].isAlive == false) then
+                    -- audio
+                    local cannonSound = audio.loadSound( "audio/cannon.mp3" )
+                    audio.play(cannonSound)--播放音效檔
+                    audio.setVolume( 1 , {channel=4})
                     bossSpits[a].isAlive = true
                     bossSpits[a].x = boss.x - 35
                     bossSpits[a].y = boss.y + 55
@@ -556,6 +576,10 @@ end
 
 -- Restart game
 function restartGame()
+    --audio
+    local bgMusic = audio.loadStream( "audio/bgmusic.mp3" )  --載入音樂檔
+    audio.play(bgMusic,{ channel=5, loops=-1 })  --播放音樂檔
+    audio.setVolume( 1 , {channel=5})        --設定播放音量(0~1)
      --move menu
      gameOver.x = 0
      gameOver.y = 500
@@ -623,9 +647,17 @@ if(monster.isAlive == true) then
     if(event.phase == "began") then
         if(event.x < 241) then
             if(onGround) then
-                monster.accel = monster.accel + 25
+            -- audio
+            local jumpSound = audio.loadSound( "audio/jump.mp3" )
+            audio.play(jumpSound)--播放音效檔
+            audio.setVolume( 0.3 , {channel=2})
+            monster.accel = monster.accel + 26
             end
-            else
+          else
+            -- audio
+            local launchSound = audio.loadSound( "audio/launch.mp3" )
+            audio.play(launchSound)--播放音效檔
+            audio.setVolume( 0.1 , {channel=3})
                 for a=1, blasts.numChildren, 1 do
                     if(blasts[a].isAlive == false) then
                         blasts[a].isAlive = true
@@ -642,11 +674,13 @@ end
 -- NO
 function noListener()
     storyboard.gotoScene("scene_splash")
+    audio.stop(1)
     return true
 end
 -- YES
 function yesListener(event)
     restartGame()
+    audio.stop(1)
     return true
 end
 
