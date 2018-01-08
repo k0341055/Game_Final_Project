@@ -29,4 +29,4 @@
 > * 賈振暉 0412016 : PPT製作（期末）
 
 ## 遊戲操作示範影片
-[![FINAL REPORT DEMO](https://ppt.cc/ftuJCx)](https://youtu.be/7DvTiba9WmM "demo")
+[![FINAL REPORT DEMO](https://github.com/k0341055/Game_Final_Project/blob/master/FinalProject/images/menu.png)](https://www.youtube.com/watch?v=7DvTiba9WmM&feature=youtu.be)
